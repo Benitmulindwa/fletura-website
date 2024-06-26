@@ -83,21 +83,14 @@ def main(page: Page):
                     Column(
                         [
                             Container(
-                                Image(
-                                    src="light_logo.jpg",
-                                    width=100,
-                                    height=100,
-                                ),
-                                width=100,
-                                height=100,
                                 border_radius=50,
                                 alignment=alignment.center,
                                 margin=margin.only(top=15, bottom=0),
                             ),
                             Container(
                                 Text(
-                                    "PhoenixBusiness",
-                                    size=15,
+                                    "FLETURA",
+                                    size=25,
                                     weight=FontWeight.W_500,
                                 ),
                                 margin=margin.only(top=0),
@@ -115,7 +108,6 @@ def main(page: Page):
                         Container(
                             Row(
                                 [
-                                    Icon(icons.DASHBOARD),
                                     Text("Home"),
                                     Row(expand=True),
                                     indicator,
@@ -132,7 +124,6 @@ def main(page: Page):
                         Container(
                             Row(
                                 [
-                                    Icon(icons.PRODUCTION_QUANTITY_LIMITS_SHARP),
                                     Text("Neumorphic"),
                                 ]
                             ),
@@ -144,7 +135,7 @@ def main(page: Page):
                             on_click=lambda e: show_content(e, "neumorphic_card"),
                         ),
                         Container(
-                            Row([Icon(icons.FILE_COPY), Text("Progress Indicator")]),
+                            Row([Text("Progress Indicator")]),
                             padding=padding.only(10),
                             opacity=1.0,
                             height=30,
@@ -153,7 +144,7 @@ def main(page: Page):
                             on_click=lambda e: show_content(e, "progress_indicator"),
                         ),
                         Container(
-                            Row([Icon(icons.ANALYTICS), Text("Timeline")]),
+                            Row([Text("Timeline")]),
                             padding=padding.only(10),
                             opacity=1.0,
                             height=30,
@@ -172,33 +163,9 @@ def main(page: Page):
         alignment=alignment.center,
     )
 
-    # Create a sidebar for navigation
-    # sidebar = Container(
-    #     width=200,
-    #     bgcolor=colors.BLUE_700,
-    #     padding=10,
-    #     content=Column(
-    #         [
-    #             Text(
-    #                 "Documentation", size=20, weight=FontWeight.BOLD, color=colors.WHITE
-    #             ),
-    #             Divider(color=colors.WHITE),
-    #             TextButton(
-    #                 "Home", icon=icons.HOME, on_click=lambda e: show_content("home")
-    #             ),
-    #             TextButton(
-    #                 "Neumorphic Card",
-    #                 on_click=lambda e: show_content("neumorphic_card"),
-    #             ),
-    #             TextButton("Timeline", on_click=lambda e: show_content("timeline")),
-    #             TextButton(
-    #                 "Progress Indicator",
-    #                 on_click=lambda e: show_content("progress_indicator"),
-    #             ),
-    #         ],
-    #         spacing=10,
-    #     ),
-    # )
+    def hovered(e):
+        e.control.opacity = 0.5 if e.control.opacity == 1.0 else 1.0
+        e.control.update()
 
     # # Function to show the selected content and hide the others
     menu_items: list = []
@@ -208,7 +175,7 @@ def main(page: Page):
         neumorphic_card_content.visible = content_name == "neumorphic_card"
         timeline_content.visible = content_name == "timeline"
         progress_indicator_content.visible = content_name == "progress_indicator"
-        _removed = None
+        _removed = 0
         menu_items.append(int(e.control.data))
 
         if len(menu_items) >= 2:
