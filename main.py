@@ -1,54 +1,90 @@
 from flet import *
+from fletura import FlatContainer, Paper
+from docs import *
+from time import sleep
+
+PRIMARYCOLOR = "#223631"
 
 
 def main(page: Page):
     # Set up the page
+    page.bgcolor = colors.GREY_300
     page.title = "Flet Components Documentation"
     page.horizontal_alignment = "center"
     page.vertical_alignment = "start"
-    # page.bgcolor = colors.GREY_100
+    page.padding = 0
+    page.theme_mode = "light"
 
     def hovered(e):
         e.control.opacity = 0.5 if e.control.opacity == 1.0 else 1.0
         e.control.update()
 
+    def change_scale(e):
+        e.control.scale = 1.3 if e.data == "true" else 1
+        e.control.update()
+
+    def fletura_source_code(e):
+        page.launch_url("https://github.com/Benitmulindwa/fletura")
+
+    def open_searchbar(e):
+        state = e.control.data
+        (
+            e.control.parent.parent.controls.insert(
+                0,
+                Container(
+                    TextField(
+                        # border=None,
+                        height=30,
+                        width=page.width // 6,
+                        bgcolor="#f0f0f0",
+                        content_padding=8,
+                        border_color=PRIMARYCOLOR,
+                        cursor_color="#4b4b4b",
+                        hint_text="Search",
+                        text_style=TextStyle(weight=FontWeight.W_600),
+                    ),
+                    offset=transform.Offset(-1, 0),
+                    animate_offset=animation.Animation(400, AnimationCurve.DECELERATE),
+                ),
+            )
+            if state == False
+            else e.control.parent.parent.controls.pop(0)
+        )
+        page.update()
+        sleep(0.05)
+        e.control.parent.parent.controls[0].offset = transform.Offset(0, 0)
+        e.control.icon = icons.CLOSE if state == False else icons.SEARCH
+        e.control.data = not state
+        page.update()
+
     # Create the main content containers for each section
-    home_content = Container(
+    card_content = Card_content(page)
+
+    dock_content = Container(
         Column(
-            [
-                Text(
-                    "Welcome to Flet Components Documentation",
-                    size=24,
-                    weight=FontWeight.BOLD,
-                )
-            ],
+            [Text("Dock", size=24, weight=FontWeight.BOLD, color="#223631")],
             alignment="center",
             horizontal_alignment="center",
-        ),
-        visible=True,
-        expand=True,
-    )
-
-    neumorphic_card_content = Container(
-        Column(
-            [
-                Text("Neumorphic Card", size=24, weight=FontWeight.BOLD),
-                Text("Description:", size=18, weight=FontWeight.BOLD),
-                Text(
-                    "The Neumorphic Card component is a customizable card with neumorphism and blur effects."
-                ),
-                Text("Usage:", size=18, weight=FontWeight.BOLD),
-                Text("Example:", size=18, weight=FontWeight.BOLD),
-            ],
-            spacing=10,
         ),
         visible=False,
         expand=True,
     )
+
+    paper_content = Container(
+        Column(
+            [Text("Paper", size=24, weight=FontWeight.BOLD, color="#223631")],
+            alignment="center",
+            horizontal_alignment="center",
+        ),
+        visible=False,
+        expand=True,
+    )
+
+    neumorphic_card_content = Neumorphic_content(page)
 
     timeline_content = Container(
         Column(
-            [Text("Timeline", size=24, weight=FontWeight.BOLD)],
+            [Text("Timeline", size=24, weight=FontWeight.BOLD, color="#223631")],
             alignment="center",
             horizontal_alignment="center",
         ),
@@ -56,16 +92,17 @@ def main(page: Page):
         expand=True,
     )
 
-    progress_indicator_content = Container(
+    rating_content = Container(
         Column(
-            [Text("Progress Indicator", size=24, weight=FontWeight.BOLD)],
+            [Text("Rating", size=24, weight=FontWeight.BOLD, color="#223631")],
             alignment="center",
             horizontal_alignment="center",
         ),
         visible=False,
         expand=True,
     )
-
+    # ___________________________________________________________________________________________________________________________#
+    # Indicator
     indicator = Container(
         width=4,
         height=30,
@@ -92,6 +129,7 @@ def main(page: Page):
                                     "FLETURA",
                                     size=25,
                                     weight=FontWeight.W_500,
+                                    color=colors.GREY_300,
                                 ),
                                 margin=margin.only(top=0),
                                 padding=padding.only(top=0),
@@ -108,7 +146,12 @@ def main(page: Page):
                         Container(
                             Row(
                                 [
-                                    Text("Home"),
+                                    Text(
+                                        "Card",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    ),
                                     Row(expand=True),
                                     indicator,
                                 ]
@@ -124,7 +167,12 @@ def main(page: Page):
                         Container(
                             Row(
                                 [
-                                    Text("Neumorphic"),
+                                    Text(
+                                        "Neumorphic",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    ),
                                 ]
                             ),
                             padding=padding.only(10),
@@ -135,7 +183,16 @@ def main(page: Page):
                             on_click=lambda e: show_content(e, "neumorphic_card"),
                         ),
                         Container(
-                            Row([Text("Progress Indicator")]),
+                            Row(
+                                [
+                                    Text(
+                                        "Rating",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    )
+                                ]
+                            ),
                             padding=padding.only(10),
                             opacity=1.0,
                             height=30,
@@ -144,13 +201,60 @@ def main(page: Page):
                             on_click=lambda e: show_content(e, "progress_indicator"),
                         ),
                         Container(
-                            Row([Text("Timeline")]),
+                            Row(
+                                [
+                                    Text(
+                                        "Timeline",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    )
+                                ]
+                            ),
                             padding=padding.only(10),
                             opacity=1.0,
                             height=30,
                             data=3,
                             on_hover=hovered,
                             on_click=lambda e: show_content(e, "timeline"),
+                        ),
+                        Container(
+                            Row(
+                                [
+                                    Text(
+                                        "Dock",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    ),
+                                    Row(expand=True),
+                                ]
+                            ),
+                            padding=padding.only(10),
+                            height=30,
+                            opacity=1.0,
+                            data=4,
+                            on_hover=hovered,
+                            on_click=lambda e: show_content(e, "dock"),
+                        ),
+                        Container(
+                            Row(
+                                [
+                                    Text(
+                                        "Paper",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    ),
+                                    Row(expand=True),
+                                ]
+                            ),
+                            padding=padding.only(10),
+                            height=30,
+                            opacity=1.0,
+                            data=5,
+                            on_hover=hovered,
+                            on_click=lambda e: show_content(e, "paper"),
                         ),
                     ],
                     spacing=0,
@@ -159,7 +263,7 @@ def main(page: Page):
         ),
         width=200,
         height=700,
-        bgcolor="#101415",
+        bgcolor=PRIMARYCOLOR,
         alignment=alignment.center,
     )
 
@@ -171,10 +275,12 @@ def main(page: Page):
     menu_items: list = []
 
     def show_content(e, content_name):
-        home_content.visible = content_name == "home"
+        card_content.visible = content_name == "home"
         neumorphic_card_content.visible = content_name == "neumorphic_card"
         timeline_content.visible = content_name == "timeline"
-        progress_indicator_content.visible = content_name == "progress_indicator"
+        rating_content.visible = content_name == "progress_indicator"
+        dock_content.visible = content_name == "dock"
+        paper_content.visible = content_name == "paper"
         _removed = 0
         menu_items.append(int(e.control.data))
 
@@ -200,13 +306,57 @@ def main(page: Page):
     page.add(
         Row(
             [
-                sidebar,
-                Stack(
+                Row([sidebar]),
+                Column(
                     [
-                        home_content,
-                        neumorphic_card_content,
-                        timeline_content,
-                        progress_indicator_content,
+                        FlatContainer(
+                            content=Row(
+                                [
+                                    Container(
+                                        IconButton(
+                                            icons.SEARCH,
+                                            icon_color="#223631",
+                                            padding=padding.all(-100),
+                                            data=False,
+                                            on_click=open_searchbar,
+                                        ),
+                                        on_hover=change_scale,
+                                    ),
+                                    Container(
+                                        Image(
+                                            src="github_icon.png",
+                                            # fit=ImageFit.CONTAIN,
+                                            height=40,
+                                            width=40,
+                                        ),
+                                        # bgcolor="red",
+                                        # padding=padding.all(-7),
+                                        margin=margin.only(-10),
+                                        on_hover=change_scale,
+                                        on_click=fletura_source_code,
+                                    ),
+                                ],
+                                alignment="end",
+                            ),
+                            width=page.width // 1.1,
+                            height=50,
+                            margin=margin.only(0, 15, 10),
+                        ),
+                        Divider(
+                            height="5",
+                            color=colors.with_opacity(0.5, "orange"),
+                        ),
+                        Stack(
+                            [
+                                card_content,
+                                neumorphic_card_content,
+                                timeline_content,
+                                rating_content,
+                                dock_content,
+                                paper_content,
+                            ],
+                            expand=True,
+                        ),
                     ],
                     expand=True,
                 ),
