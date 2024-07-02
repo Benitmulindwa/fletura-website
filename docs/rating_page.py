@@ -1,5 +1,5 @@
 from flet import *
-from fletura import FlatContainer, FloatingContainer, ConvexContainer
+from fletura import Rating, RatingType
 
 
 def Rating_content(page):
@@ -8,7 +8,7 @@ def Rating_content(page):
             [
                 Container(
                     Text(
-                        "Neumorphic Containers",
+                        "Rating",
                         size=24,
                         weight=FontWeight.BOLD,
                         color="#223631",
@@ -19,55 +19,57 @@ def Rating_content(page):
                     content=Column(
                         [
                             Text(
-                                "A set of customizable components(Containers) with neumorphism.",
+                                "Ratings provide insight regarding others' opinions and experiences, and can allow the user to submit a rating of their own.",
                                 size=18,
                                 color="black",
                             ),
-                            Row(
+                            Column(
                                 [
-                                    Column(
-                                        [
-                                            Text(
-                                                "FlatContainer",
-                                                weight=FontWeight.BOLD,
-                                            ),
-                                            FlatContainer(
-                                                content=Text("Flat Container"),
-                                                height=100,
-                                                width=100,
-                                            ),
-                                        ]
+                                    Container(
+                                        Text(
+                                            "Controlled",
+                                            weight=FontWeight.BOLD,
+                                        ),
+                                        padding=padding.only(top=20),
                                     ),
-                                    Column(
-                                        [
-                                            Text(
-                                                "ConvexContainer",
-                                                weight=FontWeight.BOLD,
-                                            ),
-                                            ConvexContainer(
-                                                width=100,
-                                                height=100,
-                                                border_radius=50,
-                                                padding=padding.only(20),
-                                                elevation=0.4,
-                                                content=Text(
-                                                    "Convex Container", color="black"
-                                                ),
-                                            ),
-                                        ]
+                                    Rating(
+                                        color="#223631",
+                                        rating_icon=icons.STAR_OUTLINE_OUTLINED,
+                                        selection_icon=icons.STAR,
+                                        max_value=5,
+                                        rating_type=RatingType.CONTROLLED,
                                     ),
-                                    Column(
-                                        [
-                                            Text(
-                                                "FloatingContainer",
-                                                weight=FontWeight.BOLD,
-                                            ),
-                                            FloatingContainer(100, 100),
-                                        ],
+                                ]
+                            ),
+                            Column(
+                                [
+                                    Text(
+                                        "Read Only",
+                                        weight=FontWeight.BOLD,
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        max_value=5,
+                                        selection_icon=icons.STAR,
+                                        rating_value=2.5,
+                                        rating_type=RatingType.READONLY,
+                                        size="large",
+                                    ),
+                                ]
+                            ),
+                            Column(
+                                [
+                                    Text(
+                                        "Disabled",
+                                        weight=FontWeight.BOLD,
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        max_value=5,
+                                        rating_value=1.5,
+                                        rating_type=RatingType.DISABLED,
                                     ),
                                 ],
-                                scroll="always",
-                                spacing=20,
                             ),
                         ],
                     ),

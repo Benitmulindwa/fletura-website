@@ -92,15 +92,7 @@ def main(page: Page):
         expand=True,
     )
 
-    rating_content = Container(
-        Column(
-            [Text("Rating", size=24, weight=FontWeight.BOLD, color="#223631")],
-            alignment="center",
-            horizontal_alignment="center",
-        ),
-        visible=False,
-        expand=True,
-    )
+    rating_content = Rating_content(page)
     # ___________________________________________________________________________________________________________________________#
     # Indicator
     indicator = Container(
