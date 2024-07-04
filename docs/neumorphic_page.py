@@ -62,7 +62,7 @@ def Neumorphic_content(page):
                                                 "FloatingContainer",
                                                 weight=FontWeight.BOLD,
                                             ),
-                                            FloatingContainer(100, 100),
+                                            FloatingContainer(100, width=100),
                                         ],
                                     ),
                                 ],

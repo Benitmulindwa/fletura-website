@@ -1,22 +1,18 @@
 from flet import *
 from fletura import Timeline
 
+
 events = [
     {
         "title": "Event 1",
         "description": "This is the description for event 1.",
         "timestamp": "2023-01-01 10:00 AM",
-        # "icon": icons.EVENT,
-        # "icon_size": 30,
         "dot_props": {
-            # "border_color": "red",
-            # "border_radius": 2,
-            # "dot_border_radius": 0,
-            "border": border.all(2, color="blue"),
+            "border": border.all(2, color="black"),
         },
         "content_position": 0,
         "separator_props": {
-            "color": colors.GREEN_500,
+            "color": colors.BLACK,
             # "width": 3,
             "height": 70,
             "margin": margin.only(top=5),
@@ -27,17 +23,12 @@ events = [
         "title": "Event 2",
         "description": "This is the description for event 2.",
         "timestamp": "2023-02-01 12:00 PM",
-        # "icon": icons.CALENDAR_TODAY,
-        # "icon_size": 25,
         "dot_props": {
-            # "border_color": "red",
-            # "border_radius": 2,
-            # "dot_border_radius": 0,
-            "border": border.all(2, color="red"),
+            "border": border.all(2, color="black"),
         },
         "content_position": 0,
         "separator_props": {
-            # "color": colors.BLUE,
+            "color": colors.BLACK,
             # "width": 3,
             "height": 70,
             "margin": margin.only(top=5),
@@ -48,17 +39,12 @@ events = [
         "title": "Event 3",
         "description": "This is the description for event 3.",
         "timestamp": "2023-03-01 02:00 PM",
-        # "icon": icons.DATE_RANGE,
-        # "icon_size": 20,
         "dot_props": {
-            # "border_radius": 2,
-            # "dot_border_radius": 0,
-            "border": border.all(2, color="green"),
+            "border": border.all(2, color="black"),
         },
         "content_position": 0,
         "separator_props": {
-            "color": colors.BLUE_200,
-            # "width": 3,
+            "color": colors.BLACK,
             "height": 70,
             "margin": margin.only(top=5),
         },
@@ -114,6 +100,7 @@ project_events = [
             "icon_color": colors.BLUE,
             "border": border.all(2, color="blue"),
         },
+        "on_click": lambda _: ...,
         "separator_props": {
             "color": colors.GREEN_500,
             "height": 70,
@@ -170,7 +157,7 @@ def Timeline_content(page):
                                     Column(
                                         [
                                             Text(
-                                                "FlatContainer",
+                                                "Simple Timeline component",
                                                 weight=FontWeight.BOLD,
                                             ),
                                             timeline1,
@@ -188,7 +175,7 @@ def Timeline_content(page):
                                     Column(
                                         [
                                             Text(
-                                                "",
+                                                "Timeline component with on_click event",
                                                 weight=FontWeight.BOLD,
                                             ),
                                             timeline3,
