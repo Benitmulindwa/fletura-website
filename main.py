@@ -60,15 +60,7 @@ def main(page: Page):
     # Create the main content containers for each section
     card_content = Card_content(page)
 
-    dock_content = Container(
-        Column(
-            [Text("Dock", size=24, weight=FontWeight.BOLD, color="#223631")],
-            alignment="center",
-            horizontal_alignment="center",
-        ),
-        visible=False,
-        expand=True,
-    )
+    dock_content = Dock_content(page)
 
     paper_content = Container(
         Column(
