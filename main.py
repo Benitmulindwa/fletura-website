@@ -82,15 +82,7 @@ def main(page: Page):
 
     neumorphic_card_content = Neumorphic_content(page)
 
-    timeline_content = Container(
-        Column(
-            [Text("Timeline", size=24, weight=FontWeight.BOLD, color="#223631")],
-            alignment="center",
-            horizontal_alignment="center",
-        ),
-        visible=False,
-        expand=True,
-    )
+    timeline_content = Timeline_content(page)
 
     rating_content = Rating_content(page)
     # ___________________________________________________________________________________________________________________________#
