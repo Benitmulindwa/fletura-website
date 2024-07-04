@@ -19,7 +19,7 @@ def Dock_content(page):
                     content=Column(
                         [
                             Text(
-                                "The Dock component is a versatile and customizable UI element designed to display notifications or status indicators in a visually appealing manner.",
+                                "The Dock component is a customizable UI element designed to display notifications or status indicators in a visually appealing manner.",
                                 size=18,
                                 color="black",
                             ),
