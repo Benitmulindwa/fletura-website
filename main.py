@@ -7,13 +7,40 @@ PRIMARYCOLOR = "#223631"
 
 
 def main(page: Page):
-    # Set up the page
+
+    def close_sidebar(e):
+        state = e.control.data
+        e.control.icon = icons.ARROW_FORWARD if state == False else icons.ARROW_BACK
+        e.control.parent.parent.controls[0].width = 0 if state == False else 200
+        e.control.data = not state
+        e.control.parent.parent.update()
+
+    def respo_page():
+        if page.width <= 500:
+            page.controls[0].controls[1].controls.append(
+                IconButton(
+                    icons.ARROW_BACK,
+                    icon_color="orange",
+                    on_click=close_sidebar,
+                    data=False,
+                    icon_size=40,
+                )
+            )
+
+        else:
+            page.controls[0].controls[1].controls.pop(-1)
+
+    # On resize event
+    def on_resize_event(e):
+        respo_page()
+
     page.bgcolor = colors.GREY_300
     page.title = "Flet Components Documentation"
     page.horizontal_alignment = "center"
     page.vertical_alignment = "start"
     page.padding = 0
     page.theme_mode = "light"
+    page.on_resize = on_resize_event
 
     def hovered(e):
         e.control.opacity = 0.5 if e.control.opacity == 1.0 else 1.0
@@ -59,24 +86,12 @@ def main(page: Page):
 
     # Create the main content containers for each section
     card_content = Card_content(page)
-
     dock_content = Dock_content(page)
-
-    paper_content = Container(
-        Column(
-            [Text("Paper", size=24, weight=FontWeight.BOLD, color="#223631")],
-            alignment="center",
-            horizontal_alignment="center",
-        ),
-        visible=False,
-        expand=True,
-    )
-
+    paper_content = Paper_content(page)
     neumorphic_card_content = Neumorphic_content(page)
-
     timeline_content = Timeline_content(page)
-
     rating_content = Rating_content(page)
+
     # ___________________________________________________________________________________________________________________________#
     # Indicator
     indicator = Container(
@@ -156,7 +171,7 @@ def main(page: Page):
                             opacity=1.0,
                             data=1,
                             on_hover=hovered,
-                            on_click=lambda e: show_content(e, "neumorphic_card"),
+                            on_click=lambda e: show_content(e, "neumorphic"),
                         ),
                         Container(
                             Row(
@@ -174,7 +189,7 @@ def main(page: Page):
                             height=30,
                             data=2,
                             on_hover=hovered,
-                            on_click=lambda e: show_content(e, "progress_indicator"),
+                            on_click=lambda e: show_content(e, "rating"),
                         ),
                         Container(
                             Row(
@@ -235,6 +250,8 @@ def main(page: Page):
                     ],
                     spacing=0,
                 ),
+                Column(expand=True),
+                Text("Built with 💕", size=12, color="orange"),
             ]
         ),
         width=200,
@@ -252,9 +269,9 @@ def main(page: Page):
 
     def show_content(e, content_name):
         card_content.visible = content_name == "home"
-        neumorphic_card_content.visible = content_name == "neumorphic_card"
+        neumorphic_card_content.visible = content_name == "neumorphic"
         timeline_content.visible = content_name == "timeline"
-        rating_content.visible = content_name == "progress_indicator"
+        rating_content.visible = content_name == "rating"
         dock_content.visible = content_name == "dock"
         paper_content.visible = content_name == "paper"
         _removed = 0
@@ -282,7 +299,11 @@ def main(page: Page):
     page.add(
         Row(
             [
-                Row([sidebar]),
+                Stack(
+                    [
+                        sidebar,
+                    ]
+                ),
                 Column(
                     [
                         FlatContainer(
@@ -340,6 +361,8 @@ def main(page: Page):
             expand=True,
         )
     )
+    respo_page()
+    page.update()
 
 
 if __name__ == "__main__":

@@ -148,11 +148,11 @@ def Timeline_content(page):
                     content=Column(
                         [
                             Text(
-                                "A set of customizable components(Containers) with neumorphism.",
+                                "The Timeline component is a structured UI element designed to display a sequence of events or activities in a chronological order.",
                                 size=18,
                                 color="black",
                             ),
-                            Row(
+                            ResponsiveRow(
                                 [
                                     Column(
                                         [
@@ -161,7 +161,8 @@ def Timeline_content(page):
                                                 weight=FontWeight.BOLD,
                                             ),
                                             timeline1,
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -170,7 +171,8 @@ def Timeline_content(page):
                                                 weight=FontWeight.BOLD,
                                             ),
                                             timeline2,
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -180,9 +182,9 @@ def Timeline_content(page):
                                             ),
                                             timeline3,
                                         ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                 ],
-                                scroll="always",
                                 spacing=20,
                             ),
                         ],

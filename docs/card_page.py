@@ -18,7 +18,7 @@ def Card_content(page):
                                 size=18,
                                 color="black",
                             ),
-                            Row(
+                            ResponsiveRow(
                                 [
                                     Column(
                                         [
@@ -37,12 +37,13 @@ def Card_content(page):
                                                     TextButton("LEARN MORE"),
                                                 ],
                                                 can_expand=True,
-                                                long_description="""To make the container expand when the drop-down icon is clicked, you can add a callback function that toggles the expansion of the description. This involves updating the visibility and possibly the size of the container when the icon is clicked. Here's how you can implement this:
+                                                long_description="""
 Ils partagent le fait d'avoir quatre pattes (hormis les orvets), des oreilles à tympan apparent sans conduit auditif externe, le corps recouvert d'écailles et la mue. Certaines familles emblématiques du terme générique de "lézard", comme les Lacertidae, peuvent perdre volontairement leur queue (autotomie) en cas d'agression et ont des paupières mobiles.
 """,
                                                 title_style=TextStyle(color="white"),
                                             ),
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -62,7 +63,8 @@ Ils partagent le fait d'avoir quatre pattes (hormis les orvets), des oreilles à
                                                 ),
                                                 title_style=TextStyle(color="white"),
                                             ),
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -81,16 +83,11 @@ Ils partagent le fait d'avoir quatre pattes (hormis les orvets), des oreilles à
                                                 title_style=TextStyle(color="white"),
                                             ),
                                         ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                 ],
-                                scroll="always",
+                                # scroll="always",
                             ),
-                            Text("CardMedia properties:"),
-                            Text("image_src", weight=FontWeight.BOLD),
-                            Text("title", weight=FontWeight.BOLD),
-                            Text("image_src", weight=FontWeight.BOLD),
-                            Text("description", weight=FontWeight.BOLD),
-                            Text("long-description", weight=FontWeight.BOLD),
                         ],
                         # scroll="always",
                     ),
@@ -104,9 +101,7 @@ Ils partagent le fait d'avoir quatre pattes (hormis les orvets), des oreilles à
         ),
         visible=True,
         expand=True,
-        # height=500,
         width=page.width // 1.1,
-        # alignment=alignment.top_left,
     )
     cont.alignment = alignment.center_left
 

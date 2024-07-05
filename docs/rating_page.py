@@ -27,6 +27,14 @@ def Rating_content(page):
                                 [
                                     Container(
                                         Text(
+                                            "Rating Type:",
+                                            size=18,
+                                            color="black",
+                                        ),
+                                        margin=margin.only(top=20),
+                                    ),
+                                    Container(
+                                        Text(
                                             "Controlled",
                                             weight=FontWeight.BOLD,
                                         ),
@@ -74,6 +82,88 @@ def Rating_content(page):
                         ],
                     ),
                     padding=padding.only(30, right=30),
+                ),
+                # ________________ratingsize________________________
+                Container(
+                    content=Column(
+                        [
+                            Container(
+                                Text(
+                                    "Rating size:",
+                                    size=18,
+                                    color="black",
+                                ),
+                                margin=margin.only(top=20),
+                            ),
+                            Column(
+                                [
+                                    Container(
+                                        Text(
+                                            "Small",
+                                            weight=FontWeight.BOLD,
+                                        ),
+                                        padding=padding.only(top=20),
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        rating_icon=icons.STAR_OUTLINE_OUTLINED,
+                                        selection_icon=icons.STAR,
+                                        max_value=5,
+                                        rating_type=RatingType.CONTROLLED,
+                                        size="small",
+                                    ),
+                                ]
+                            ),
+                            Column(
+                                [
+                                    Text(
+                                        "Medium",
+                                        weight=FontWeight.BOLD,
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        max_value=5,
+                                        selection_icon=icons.STAR,
+                                        rating_value=2.5,
+                                        rating_type=RatingType.READONLY,
+                                        size="medium",
+                                    ),
+                                ]
+                            ),
+                            Column(
+                                [
+                                    Text(
+                                        "Large",
+                                        weight=FontWeight.BOLD,
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        max_value=5,
+                                        selection_icon=icons.STAR,
+                                        rating_value=2.5,
+                                        rating_type=RatingType.READONLY,
+                                        size="large",
+                                    ),
+                                ]
+                            ),
+                            Column(
+                                [
+                                    Text(
+                                        "Extralarge",
+                                        weight=FontWeight.BOLD,
+                                    ),
+                                    Rating(
+                                        color="#223631",
+                                        max_value=5,
+                                        rating_value=1.5,
+                                        rating_type=RatingType.DISABLED,
+                                        size="extralarge",
+                                    ),
+                                ],
+                            ),
+                        ],
+                    ),
+                    padding=padding.only(30, right=30, bottom=30),
                 ),
             ],
             scroll="always",

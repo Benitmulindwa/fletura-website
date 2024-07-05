@@ -23,7 +23,7 @@ def Neumorphic_content(page):
                                 size=18,
                                 color="black",
                             ),
-                            Row(
+                            ResponsiveRow(
                                 [
                                     Column(
                                         [
@@ -36,7 +36,8 @@ def Neumorphic_content(page):
                                                 height=100,
                                                 width=100,
                                             ),
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -54,7 +55,8 @@ def Neumorphic_content(page):
                                                     "Convex Container", color="black"
                                                 ),
                                             ),
-                                        ]
+                                        ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                     Column(
                                         [
@@ -64,9 +66,9 @@ def Neumorphic_content(page):
                                             ),
                                             FloatingContainer(100, width=100),
                                         ],
+                                        col={"sm": 6, "md": 4, "xl": 4},
                                     ),
                                 ],
-                                scroll="always",
                                 spacing=20,
                             ),
                         ],
