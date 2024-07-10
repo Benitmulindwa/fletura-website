@@ -1,2 +1,3 @@
-fletura>=1.0.7
-flet>=0.23.2
+flet==0.23.2
+fletura==1.0.8
+
