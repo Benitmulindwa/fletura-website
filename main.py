@@ -1,9 +1,68 @@
 from flet import *
-from fletura import FlatContainer, Paper
 from docs import *
 from time import sleep
 
 PRIMARYCOLOR = "#223631"
+
+
+class ShadowPosition:
+    TOP_RIGHT: tuple = (5, -5)
+    TOP_LEFT: tuple = (-5, -5)
+    BOTTOM_RIGHT: tuple = (5, 5)
+    BOTTOM_LEFT: tuple = (-5, 5)
+
+
+class FlatContainer(Container):
+    def __init__(self, height: int, **kwargs):
+        super().__init__(
+            bgcolor=colors.GREY_200,
+            height=height,
+            alignment=alignment.center,
+            border_radius=10,
+            shadow=[
+                BoxShadow(
+                    spread_radius=1,
+                    blur_radius=6,
+                    color=colors.with_opacity(0.2, colors.BLACK),
+                    offset=Offset(2, 2),
+                ),
+            ],
+            **kwargs,
+        )
+
+
+class FloatingContainer(Container):
+    def __init__(
+        self,
+        height: int,
+        border_radius=10,
+        bgcolor: str = colors.GREY_200,
+        shadow1_color: str = colors.WHITE,
+        shadow2_color: str = colors.BLACK,
+        shadow_position: ShadowPosition = ShadowPosition.BOTTOM_RIGHT,
+        **kwargs,
+    ):
+        super().__init__(
+            bgcolor=bgcolor,
+            height=height,
+            alignment=alignment.center,
+            border_radius=border_radius,
+            shadow=[
+                BoxShadow(
+                    spread_radius=1,
+                    blur_radius=6,
+                    color=colors.with_opacity(0.2, shadow1_color),
+                    offset=Offset(-shadow_position[0], -shadow_position[1]),
+                ),
+                BoxShadow(
+                    spread_radius=1,
+                    blur_radius=6,
+                    color=colors.with_opacity(0.2, shadow2_color),
+                    offset=Offset(*shadow_position),
+                ),
+            ],
+            **kwargs,
+        )
 
 
 def main(page: Page):
@@ -17,21 +76,14 @@ def main(page: Page):
 
     def respo_page():
         if page.width <= 500:
-            page.controls[0].controls[1].controls.append(
-                IconButton(
-                    icons.ARROW_BACK,
-                    icon_color="orange",
-                    on_click=close_sidebar,
-                    data=False,
-                    icon_size=40,
-                )
-            )
+            page.controls[0].controls[1].controls[-1].visible = True
 
         else:
-            page.controls[0].controls[1].controls.pop(-1)
+            page.controls[0].controls[1].controls[-1].visible = False
+        page.update()
 
     # On resize event
-    def on_resize_event(e):
+    def on_resized_event(e):
         respo_page()
 
     page.bgcolor = colors.GREY_300
@@ -40,7 +92,7 @@ def main(page: Page):
     page.vertical_alignment = "start"
     page.padding = 0
     page.theme_mode = "light"
-    page.on_resize = on_resize_event
+    page.on_resized = on_resized_event
 
     def hovered(e):
         e.control.opacity = 0.5 if e.control.opacity == 1.0 else 1.0
@@ -91,6 +143,7 @@ def main(page: Page):
     neumorphic_card_content = Neumorphic_content(page)
     timeline_content = Timeline_content(page)
     rating_content = Rating_content(page)
+    switch_content = Switch_content(page)
 
     # ___________________________________________________________________________________________________________________________#
     # Indicator
@@ -247,6 +300,25 @@ def main(page: Page):
                             on_hover=hovered,
                             on_click=lambda e: show_content(e, "paper"),
                         ),
+                        Container(
+                            Row(
+                                [
+                                    Text(
+                                        "Switch",
+                                        weight=FontWeight.W_500,
+                                        size=17,
+                                        color=colors.GREY_100,
+                                    ),
+                                    Row(expand=True),
+                                ]
+                            ),
+                            padding=padding.only(10),
+                            height=30,
+                            opacity=1.0,
+                            data=6,
+                            on_hover=hovered,
+                            on_click=lambda e: show_content(e, "switch"),
+                        ),
                     ],
                     spacing=0,
                 ),
@@ -274,6 +346,7 @@ def main(page: Page):
         rating_content.visible = content_name == "rating"
         dock_content.visible = content_name == "dock"
         paper_content.visible = content_name == "paper"
+        switch_content.visible = content_name == "switch"
         _removed = 0
         menu_items.append(int(e.control.data))
 
@@ -322,12 +395,9 @@ def main(page: Page):
                                     Container(
                                         Image(
                                             src="github_icon.png",
-                                            # fit=ImageFit.CONTAIN,
                                             height=40,
                                             width=40,
                                         ),
-                                        # bgcolor="red",
-                                        # padding=padding.all(-7),
                                         margin=margin.only(-10),
                                         on_hover=change_scale,
                                         on_click=fletura_source_code,
@@ -340,7 +410,7 @@ def main(page: Page):
                             margin=margin.only(0, 15, 10),
                         ),
                         Divider(
-                            height="5",
+                            height=5,
                             color=colors.with_opacity(0.5, "orange"),
                         ),
                         Stack(
@@ -351,8 +421,17 @@ def main(page: Page):
                                 rating_content,
                                 dock_content,
                                 paper_content,
+                                switch_content,
                             ],
                             expand=True,
+                        ),
+                        IconButton(
+                            icons.ARROW_BACK,
+                            icon_color="orange",
+                            on_click=close_sidebar,
+                            data=False,
+                            # visible=False,
+                            icon_size=40,
                         ),
                     ],
                     expand=True,
@@ -366,4 +445,4 @@ def main(page: Page):
 
 
 if __name__ == "__main__":
-    app(target=main)
+    app(target=main, assets_dir="assets")
