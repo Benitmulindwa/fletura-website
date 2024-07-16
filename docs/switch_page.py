@@ -15,7 +15,7 @@ class Switch(Container):
         inactive_thumb_content: Control = None,
         default_thumb_content: Control = None,
         thumb_style: dict = None,
-        active_color: str = "green",
+        active_color: str = "blue",
         inactive_color: str = "grey",
         label: str = None,
         label_style: TextStyle = None,
@@ -61,16 +61,27 @@ class Switch(Container):
             self.default_thumb_content,
             width=self.thumb_width,
             height=self.thumb_height,
-            offset=transform.Offset(0 if self.value == False else -x_offset, -y_offset),
+            offset=transform.Offset(
+                (
+                    0.2
+                    if self.value == False and self.track_height > self.thumb_height
+                    else -x_offset if self.value == True else -0.1
+                ),
+                -y_offset,
+            ),
             animate_offset=animation.Animation(200, AnimationCurve.DECELERATE),
             **self.thumb_style,
         )
 
         self.switch_track = Container(
-            self.inactive_track_content,
+            (
+                self.inactive_track_content
+                if self.value == False
+                else self.active_track_content
+            ),
             width=self.track_width,
             height=self.track_height,
-            bgcolor=self.inactive_color,
+            bgcolor=self.inactive_color if self.value == False else self.active_color,
             border_radius=self.track_height / 2,
             **self.track_style,
         )
@@ -95,11 +106,13 @@ class Switch(Container):
 
     def calculate_offsets(self):
         # Calculate the offsets for centering the thumb.
-        x_offset = (self.thumb_width - self.track_width) / (
-            self.track_width / (self.track_width / self.thumb_width)
+        x_offset = (
+            ((self.thumb_width - self.track_width) / self.thumb_width) + 0.2
+            if self.track_height > self.thumb_height
+            else (self.thumb_width - self.track_width) / self.thumb_width
         )
         y_offset = (self.thumb_height - self.track_height) / (
-            self.thumb_height / (self.track_height * 0.4) * self.track_height
+            self.thumb_height / (self.track_height * 0.5) * self.track_height
         )
         return x_offset, y_offset
 
@@ -110,7 +123,14 @@ class Switch(Container):
         self.switch_thumb.offset = (
             transform.Offset(-x_offset, -y_offset)
             if self.value
-            else transform.Offset(0, -y_offset)
+            else transform.Offset(
+                (
+                    0.2
+                    if self.value == False and self.track_height > self.thumb_height
+                    else -0.1
+                ),
+                -y_offset,
+            )
         )
         self.switch_thumb.content = (
             self.active_thumb_content if self.value else self.inactive_thumb_content
